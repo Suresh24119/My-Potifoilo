@@ -27,8 +27,7 @@ body {
   to { transform: rotate(360deg); }
 }
 
-/* Tailwind CSS CDN Integration */
-@import 'https://cdn.tailwindcss.com';
+/* Tailwind CSS is loaded via CDN in index.html */
 
 /* Custom hero canvas styles */
 #hero-canvas {
