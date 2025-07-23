@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import './App.css'
+import ContactsList from './ContactsList'
 
 // Contact Form Component
 const ContactForm = () => {
@@ -109,6 +110,7 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [skillsAnimated, setSkillsAnimated] = useState(false)
   const [visibleSections, setVisibleSections] = useState(new Set())
+  const [showContactsList, setShowContactsList] = useState(false)
   const heroCanvasRef = useRef(null)
   const skillsSectionRef = useRef(null)
   const aboutRef = useRef(null)
@@ -266,6 +268,9 @@ export default function App() {
             <button onClick={() => scrollToSection('skills')} className="text-gray-600 hover:text-indigo-600 transition duration-300">Skills</button>
             <button onClick={() => scrollToSection('projects')} className="text-gray-600 hover:text-indigo-600 transition duration-300">Projects</button>
             <button onClick={() => scrollToSection('education')} className="text-gray-600 hover:text-indigo-600 transition duration-300">Education</button>
+            <button onClick={() => setShowContactsList(!showContactsList)} className="text-gray-600 hover:text-indigo-600 transition duration-300">
+              {showContactsList ? 'Home' : 'Messages'}
+            </button>
             <button onClick={() => scrollToSection('contact')} className="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition duration-300">Contact</button>
           </div>
           <button 
@@ -289,6 +294,12 @@ export default function App() {
       </header>
 
       <main>
+        {showContactsList ? (
+          <section className="py-20 min-h-screen bg-gray-50">
+            <ContactsList />
+          </section>
+        ) : (
+          <>
         {/* 3D Hero Section */}
         <section id="home" className="relative py-20 md:py-32 bg-gray-900 text-white overflow-hidden h-screen flex items-center justify-center">
           <canvas ref={heroCanvasRef} className="absolute top-0 left-0 w-full h-full z-1"></canvas>
@@ -588,6 +599,8 @@ export default function App() {
             </div>
           </div>
         </section>
+          </>
+        )}
       </main>
 
       {/* Footer */}
