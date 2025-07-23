@@ -155,6 +155,145 @@ img {
   transition: all 0.3s ease;
 }
 
+/* Glow card animations */
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px rgba(79, 70, 229, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(79, 70, 229, 0.6), 0 0 30px rgba(99, 102, 241, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(79, 70, 229, 0.2);
+  }
+}
+
+@keyframes colorShift {
+  0% {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  }
+  25% {
+    background: linear-gradient(135deg, #fef2f2 0%, #fde2e7 100%);
+  }
+  50% {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  }
+  75% {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  }
+  100% {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  }
+}
+
+@keyframes floatUp {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(147, 51, 234, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(147, 51, 234, 0.8), 0 0 50px rgba(147, 51, 234, 0.4);
+  }
+}
+
+.glow-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  border: 1px solid transparent;
+}
+
+.glow-card:hover {
+  animation: glow 2s infinite ease-in-out;
+  transform: translateY(-8px) scale(1.02);
+}
+
+.color-shift-card {
+  animation: colorShift 6s infinite ease-in-out;
+  transition: all 0.3s ease;
+}
+
+.color-shift-card:hover {
+  animation: colorShift 2s infinite ease-in-out, floatUp 3s infinite ease-in-out;
+}
+
+.float-card {
+  animation: floatUp 4s infinite ease-in-out;
+}
+
+.pulse-glow-card {
+  transition: all 0.3s ease;
+}
+
+.pulse-glow-card:hover {
+  animation: pulseGlow 1.5s infinite ease-in-out;
+  transform: scale(1.05);
+}
+
+/* Gradient border animation */
+@keyframes borderGlow {
+  0% {
+    border-color: rgba(79, 70, 229, 0.3);
+  }
+  50% {
+    border-color: rgba(147, 51, 234, 0.8);
+  }
+  100% {
+    border-color: rgba(79, 70, 229, 0.3);
+  }
+}
+
+.border-glow {
+  border: 2px solid rgba(79, 70, 229, 0.3);
+  animation: borderGlow 3s infinite ease-in-out;
+}
+
+/* Shimmer effect */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.shimmer-card:hover::before {
+  opacity: 1;
+}
+
 /* Contact form styling */
 .contact-form input,
 .contact-form textarea {

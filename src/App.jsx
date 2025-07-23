@@ -240,12 +240,12 @@ export default function App() {
                 : 'opacity-0 translate-y-10'
             }`}>My Skills</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-700 delay-100 ${
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm glow-card shimmer-card transition-all duration-700 delay-100 ${
                 visibleSections.has('skills') 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
               }`}>
-                <h3 className="text-xl font-semibold mb-4">Web Development</h3>
+                <h3 className="text-xl font-semibold mb-4 text-indigo-700">Web Development</h3>
                 <ul className="space-y-4">
                   <li>HTML & CSS</li>
                   <li>React.js</li>
@@ -253,35 +253,35 @@ export default function App() {
                   <li>MongoDB</li>
                 </ul>
               </div>
-              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-700 delay-200 ${
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm color-shift-card border-glow transition-all duration-700 delay-200 ${
                 visibleSections.has('skills') 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
               }`}>
-                <h3 className="text-xl font-semibold mb-4">Mobile App Development</h3>
+                <h3 className="text-xl font-semibold mb-4 text-purple-700">Mobile App Development</h3>
                 <ul className="space-y-4">
                   <li>Android Studio</li>
                   <li>Java & Kotlin</li>
                   <li>XML & Jetpack Compose</li>
                 </ul>
               </div>
-              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-700 delay-300 ${
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm pulse-glow-card shimmer-card transition-all duration-700 delay-300 ${
                 visibleSections.has('skills') 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
               }`}>
-                <h3 className="text-xl font-semibold mb-4">3D Design & Animation</h3>
+                <h3 className="text-xl font-semibold mb-4 text-pink-700">3D Design & Animation</h3>
                 <ul className="space-y-4">
                   <li>Three.js</li>
                   <li>Blender (Basic)</li>
                 </ul>
               </div>
-              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-700 delay-400 ${
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm float-card glow-card transition-all duration-700 delay-400 ${
                 visibleSections.has('skills') 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
               }`}>
-                <h3 className="text-xl font-semibold mb-4">Programming Languages</h3>
+                <h3 className="text-xl font-semibold mb-4 text-green-700">Programming Languages</h3>
                 <ul className="space-y-4">
                   <li>JavaScript</li>
                   <li>Python</li>
@@ -289,12 +289,12 @@ export default function App() {
                   <li>C</li>
                 </ul>
               </div>
-              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-700 delay-500 ${
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm color-shift-card pulse-glow-card transition-all duration-700 delay-500 ${
                 visibleSections.has('skills') 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
               }`}>
-                <h3 className="text-xl font-semibold mb-4">Database Management</h3>
+                <h3 className="text-xl font-semibold mb-4 text-blue-700">Database Management</h3>
                 <ul className="space-y-4">
                   <li>MySQL</li>
                   <li>SQLite</li>
@@ -302,12 +302,12 @@ export default function App() {
                   <li>Supabase</li>
                 </ul>
               </div>
-              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-700 delay-600 ${
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm shimmer-card border-glow transition-all duration-700 delay-600 ${
                 visibleSections.has('skills') 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
               }`}>
-                <h3 className="text-xl font-semibold mb-4">Tools & Platforms</h3>
+                <h3 className="text-xl font-semibold mb-4 text-orange-700">Tools & Platforms</h3>
                 <div className="space-y-5 mt-4">
                   <SkillBar skill="Git" percentage={80} />
                   <SkillBar skill="GitHub" percentage={75} />
@@ -316,12 +316,12 @@ export default function App() {
                   <SkillBar skill="REST APIs" percentage={85} />
                 </div>
               </div>
-              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-700 delay-700 ${
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm float-card pulse-glow-card transition-all duration-700 delay-700 ${
                 visibleSections.has('skills') 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
               }`}>
-                <h3 className="text-xl font-semibold mb-4">AI/ML Integration</h3>
+                <h3 className="text-xl font-semibold mb-4 text-red-700">AI/ML Integration</h3>
                 <ul className="space-y-4">
                   <li>TensorFlow Lite (mobile)</li>
                   <li>Gemini API</li>
@@ -346,7 +346,7 @@ export default function App() {
             }`}>Here are some of my featured projects showcasing my skills and experience.</p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-700 delay-300 hover:scale-105 hover:shadow-lg ${
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm glow-card shimmer-card project-card transition-all duration-700 delay-300 hover:scale-105 hover:shadow-lg ${
                 visibleSections.has('projects') 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
@@ -358,7 +358,7 @@ export default function App() {
                     className="w-full h-48 object-cover rounded-lg"
                   />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Interactive Portfolio Website</h3>
+                <h3 className="text-xl font-semibold mb-2 text-indigo-700">Interactive Portfolio Website</h3>
                 <p className="text-gray-600 mb-4">A modern, responsive portfolio website built with React.js featuring 3D animations, interactive UI elements, and dynamic content.</p>
                 <ul className="list-disc list-inside text-gray-700">
                   <li>React.js</li>
@@ -368,12 +368,12 @@ export default function App() {
                 </ul>
               </div>
               
-              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-700 delay-500 hover:scale-105 hover:shadow-lg ${
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm color-shift-card border-glow project-card transition-all duration-700 delay-500 hover:scale-105 hover:shadow-lg ${
                 visibleSections.has('projects') 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
               }`}>
-                <h3 className="text-xl font-semibold mb-2">MERN Stack E-commerce Platform</h3>
+                <h3 className="text-xl font-semibold mb-2 text-purple-700">MERN Stack E-commerce Platform</h3>
                 <p className="text-gray-600 mb-4">Full-stack e-commerce application with user authentication, product management, shopping cart, and payment integration.</p>
                 <ul className="list-disc list-inside text-gray-700">
                   <li>MongoDB</li>
@@ -383,12 +383,12 @@ export default function App() {
                 </ul>
               </div>
               
-              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-700 delay-700 hover:scale-105 hover:shadow-lg ${
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm pulse-glow-card float-card project-card transition-all duration-700 delay-700 hover:scale-105 hover:shadow-lg ${
                 visibleSections.has('projects') 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
               }`}>
-                <h3 className="text-xl font-semibold mb-2">AI-Powered Mobile App</h3>
+                <h3 className="text-xl font-semibold mb-2 text-green-700">AI-Powered Mobile App</h3>
                 <p className="text-gray-600 mb-4">Android application integrating machine learning for real-time object detection and classification using TensorFlow Lite.</p>
                 <ul className="list-disc list-inside text-gray-700">
                   <li>Android Studio</li>
@@ -410,27 +410,27 @@ export default function App() {
                 : 'opacity-0 translate-y-10'
             }`}>Education</h2>
             <div className="max-w-2xl mx-auto">
-              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm mb-6 transition-all duration-700 delay-300 ${
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm mb-6 glow-card shimmer-card transition-all duration-700 delay-300 ${
                 visibleSections.has('education') 
                   ? 'opacity-100 translate-x-0' 
                   : 'opacity-0 -translate-x-10'
               }`}>
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="text-xl font-bold">Master Of Computer Application (MCA)</h3>
+                    <h3 className="text-xl font-bold text-indigo-700">Master Of Computer Application (MCA)</h3>
                     <p className="text-indigo-600">Ganpat University</p>
                   </div>
                   <span className="bg-indigo-100 text-indigo-800 text-sm font-medium px-2.5 py-0.5 rounded-full">2024-2026</span>
                 </div>
               </div>
-              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-700 delay-500 ${
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm pulse-glow-card border-glow transition-all duration-700 delay-500 ${
                 visibleSections.has('education') 
                   ? 'opacity-100 translate-x-0' 
                   : 'opacity-0 translate-x-10'
               }`}>
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="text-xl font-bold">B.S.C</h3>
+                    <h3 className="text-xl font-bold text-purple-700">B.S.C</h3>
                     <p className="text-indigo-600">Jai Narain Vyas University</p>
                   </div>
                   <span className="bg-indigo-100 text-indigo-800 text-sm font-medium px-2.5 py-0.5 rounded-full">2022-2024</span>
@@ -472,7 +472,7 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className={`bg-white p-8 rounded-xl shadow-md transition-all duration-700 delay-500 ${
+                <div className={`bg-white p-8 rounded-xl shadow-md glow-card shimmer-card transition-all duration-700 delay-500 ${
                   visibleSections.has('contact') 
                     ? 'opacity-100 translate-x-0' 
                     : 'opacity-0 translate-x-10'
