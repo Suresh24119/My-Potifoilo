@@ -6,6 +6,13 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [skillsAnimated, setSkillsAnimated] = useState(false)
   const [visibleSections, setVisibleSections] = useState(new Set())
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitMessage, setSubmitMessage] = useState('')
   const heroCanvasRef = useRef(null)
   const skillsSectionRef = useRef(null)
   const aboutRef = useRef(null)
@@ -135,6 +142,43 @@ export default function App() {
       element.scrollIntoView({ behavior: 'smooth' })
     }
     setMobileMenuOpen(false)
+  }
+
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setSubmitMessage('')
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setSubmitMessage('Message sent successfully! Thank you for reaching out.')
+        setFormData({ name: '', email: '', message: '' })
+      } else {
+        setSubmitMessage('Failed to send message. Please try again.')
+      }
+    } catch (error) {
+      console.error('Error sending message:', error)
+      setSubmitMessage('Failed to send message. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const SkillBar = ({ skill, percentage }) => (
@@ -479,27 +523,49 @@ export default function App() {
                 }`}>
                   <h3 className="text-xl font-bold mb-2 text-center">Get In Touch</h3>
                   <p className="text-gray-600 text-center mb-4">Send me a message and I'll get back to you soon!</p>
-                  <form className="space-y-4">
+                  <form onSubmit={handleSubmit} className="space-y-4">
                     <input 
                       type="text" 
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
                       placeholder="Your Name" 
+                      required
                       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
                     />
                     <input 
                       type="email" 
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
                       placeholder="Your Email" 
+                      required
                       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
                     />
                     <textarea 
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
                       placeholder="Your Message" 
                       rows="4" 
+                      required
                       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
                     ></textarea>
+                    {submitMessage && (
+                      <div className={`p-3 rounded-lg text-center ${
+                        submitMessage.includes('successfully') 
+                          ? 'bg-green-100 text-green-700' 
+                          : 'bg-red-100 text-red-700'
+                      }`}>
+                        {submitMessage}
+                      </div>
+                    )}
                     <button 
                       type="submit" 
-                      className="w-full bg-indigo-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-indigo-700 transition duration-300"
+                      disabled={isSubmitting}
+                      className="w-full bg-indigo-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-indigo-700 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Send Message
+                      {isSubmitting ? 'Sending...' : 'Send Message'}
                     </button>
                   </form>
                 </div>
@@ -521,6 +587,9 @@ export default function App() {
             </a>
             <a href="#" className="text-gray-400 hover:text-white transition duration-300 text-2xl" aria-label="Twitter Profile">
               <i className="fab fa-twitter"></i>
+            </a>
+            <a href="/contacts" className="text-gray-400 hover:text-white transition duration-300 text-2xl" aria-label="View Contact Messages">
+              <i className="fas fa-envelope"></i>
             </a>
           </div>
           <p>&copy; 2024 Suresh Choudhary. All Rights Reserved.</p>
