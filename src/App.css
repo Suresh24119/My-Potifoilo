@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
 
@@ -25,6 +26,9 @@ body {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+/* Tailwind CSS CDN Integration */
+@import 'https://cdn.tailwindcss.com';
 
 /* Custom hero canvas styles */
 #hero-canvas {
@@ -125,7 +129,7 @@ img {
     opacity: 0;
     transform: translateY(-10px);
   }
-
+  
   .mobile-menu-enter-active {
     opacity: 1;
     transform: translateY(0);
@@ -197,9 +201,6 @@ img {
   }
   50% {
     box-shadow: 0 0 25px rgba(147, 51, 234, 0.8), 0 0 50px rgba(147, 51, 234, 0.4);
-  }
-  100% {
-    box-shadow: 0 0 5px rgba(147, 51, 234, 0.3);
   }
 }
 
@@ -337,5 +338,3 @@ img {
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
-
-/* Tailwind CSS is loaded via CDN in index.html */

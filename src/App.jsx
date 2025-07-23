@@ -1,116 +1,11 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import './App.css'
-import ContactsList from './ContactsList'
-
-// Contact Form Component
-const ContactForm = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus(null);
-
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        setSubmitStatus({ type: 'success', message: 'Message sent successfully!' });
-        setFormData({ name: '', email: '', message: '' });
-      } else {
-        setSubmitStatus({ type: 'error', message: result.error || 'Failed to send message' });
-      }
-    } catch (error) {
-      setSubmitStatus({ type: 'error', message: 'Network error. Please try again.' });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      {submitStatus && (
-        <div className={`p-3 rounded-lg text-sm ${
-          submitStatus.type === 'success' 
-            ? 'bg-green-100 text-green-700 border border-green-300' 
-            : 'bg-red-100 text-red-700 border border-red-300'
-        }`}>
-          {submitStatus.message}
-        </div>
-      )}
-      
-      <input 
-        type="text" 
-        name="name"
-        value={formData.name}
-        onChange={handleChange}
-        placeholder="Your Name" 
-        required
-        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
-      />
-      
-      <input 
-        type="email" 
-        name="email"
-        value={formData.email}
-        onChange={handleChange}
-        placeholder="Your Email" 
-        required
-        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
-      />
-      
-      <textarea 
-        name="message"
-        value={formData.message}
-        onChange={handleChange}
-        placeholder="Your Message" 
-        rows="4" 
-        required
-        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
-      ></textarea>
-      
-      <button 
-        type="submit" 
-        disabled={isSubmitting}
-        className={`w-full px-6 py-3 rounded-full font-semibold transition duration-300 ${
-          isSubmitting 
-            ? 'bg-gray-400 text-white cursor-not-allowed' 
-            : 'bg-indigo-600 text-white hover:bg-indigo-700'
-        }`}
-      >
-        {isSubmitting ? 'Sending...' : 'Send Message'}
-      </button>
-    </form>
-  );
-};
 
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [skillsAnimated, setSkillsAnimated] = useState(false)
   const [visibleSections, setVisibleSections] = useState(new Set())
-  const [showContactsList, setShowContactsList] = useState(false)
   const heroCanvasRef = useRef(null)
   const skillsSectionRef = useRef(null)
   const aboutRef = useRef(null)
@@ -268,9 +163,6 @@ export default function App() {
             <button onClick={() => scrollToSection('skills')} className="text-gray-600 hover:text-indigo-600 transition duration-300">Skills</button>
             <button onClick={() => scrollToSection('projects')} className="text-gray-600 hover:text-indigo-600 transition duration-300">Projects</button>
             <button onClick={() => scrollToSection('education')} className="text-gray-600 hover:text-indigo-600 transition duration-300">Education</button>
-            <button onClick={() => setShowContactsList(!showContactsList)} className="text-gray-600 hover:text-indigo-600 transition duration-300">
-              {showContactsList ? 'Home' : 'Messages'}
-            </button>
             <button onClick={() => scrollToSection('contact')} className="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition duration-300">Contact</button>
           </div>
           <button 
@@ -294,12 +186,6 @@ export default function App() {
       </header>
 
       <main>
-        {showContactsList ? (
-          <section className="py-20 min-h-screen bg-gray-50">
-            <ContactsList />
-          </section>
-        ) : (
-          <>
         {/* 3D Hero Section */}
         <section id="home" className="relative py-20 md:py-32 bg-gray-900 text-white overflow-hidden h-screen flex items-center justify-center">
           <canvas ref={heroCanvasRef} className="absolute top-0 left-0 w-full h-full z-1"></canvas>
@@ -593,14 +479,34 @@ export default function App() {
                 }`}>
                   <h3 className="text-xl font-bold mb-2 text-center">Get In Touch</h3>
                   <p className="text-gray-600 text-center mb-4">Send me a message and I'll get back to you soon!</p>
-                  <ContactForm />
+                  <form className="space-y-4">
+                    <input 
+                      type="text" 
+                      placeholder="Your Name" 
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+                    />
+                    <input 
+                      type="email" 
+                      placeholder="Your Email" 
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+                    />
+                    <textarea 
+                      placeholder="Your Message" 
+                      rows="4" 
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+                    ></textarea>
+                    <button 
+                      type="submit" 
+                      className="w-full bg-indigo-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-indigo-700 transition duration-300"
+                    >
+                      Send Message
+                    </button>
+                  </form>
                 </div>
               </div>
             </div>
           </div>
         </section>
-          </>
-        )}
       </main>
 
       {/* Footer */}
