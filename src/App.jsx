@@ -5,8 +5,13 @@ import './App.css'
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [skillsAnimated, setSkillsAnimated] = useState(false)
+  const [visibleSections, setVisibleSections] = useState(new Set())
   const heroCanvasRef = useRef(null)
   const skillsSectionRef = useRef(null)
+  const aboutRef = useRef(null)
+  const projectsRef = useRef(null)
+  const educationRef = useRef(null)
+  const contactRef = useRef(null)
 
   // Three.js hero animation
   useEffect(() => {
@@ -101,6 +106,29 @@ export default function App() {
     return () => observer.disconnect()
   }, [skillsAnimated])
 
+  // Scroll animations observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVisibleSections(prev => new Set([...prev, entry.target.id]))
+          }
+        })
+      },
+      { threshold: 0.2, rootMargin: '0px 0px -50px 0px' }
+    )
+
+    const sections = [aboutRef, skillsSectionRef, projectsRef, educationRef, contactRef]
+    sections.forEach(ref => {
+      if (ref.current) {
+        observer.observe(ref.current)
+      }
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId)
     if (element) {
@@ -179,10 +207,18 @@ export default function App() {
         </section>
 
         {/* About Section */}
-        <section id="about" className="py-20">
+        <section id="about" ref={aboutRef} className="py-20">
           <div className="container mx-auto px-6">
-            <h2 className="text-3xl font-bold text-center mb-12">About Me</h2>
-            <div className="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-md">
+            <h2 className={`text-3xl font-bold text-center mb-12 transition-all duration-1000 ${
+              visibleSections.has('about') 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-10'
+            }`}>About Me</h2>
+            <div className={`max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-md transition-all duration-1000 delay-300 ${
+              visibleSections.has('about') 
+                ? 'opacity-100 translate-y-0 scale-100' 
+                : 'opacity-0 translate-y-10 scale-95'
+            }`}>
               <h3 className="font-bold text-xl mb-2 text-gray-900">Professional Summary</h3>
               <p className="text-gray-600 mb-6">
                 Hi! I'm Suresh Choudhary, a MERN Stack Developer who enjoys creating fast, user-friendly websites and web applications. I specialize in building clean and responsive interfaces using React.js on the frontend, and robust, secure backends with Node.js and Express.js. I manage data efficiently with MongoDB and ensure seamless performance across applications. Alongside web development, I have experience with Python, C, and Java, and I'm currently exploring Machine Learning to develop smart, real-world solutions. I'm passionate about problem-solving, developing impactful projects, and constantly learning new technologies to grow as a developer.
@@ -198,9 +234,17 @@ export default function App() {
         {/* Skills Section */}
         <section id="skills" ref={skillsSectionRef} className="py-20 bg-white">
           <div className="container mx-auto px-6">
-            <h2 className="text-3xl font-bold text-center mb-12">My Skills</h2>
+            <h2 className={`text-3xl font-bold text-center mb-12 transition-all duration-1000 ${
+              visibleSections.has('skills') 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-10'
+            }`}>My Skills</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className="bg-gray-50 p-6 rounded-xl shadow-sm">
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-700 delay-100 ${
+                visibleSections.has('skills') 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-10'
+              }`}>
                 <h3 className="text-xl font-semibold mb-4">Web Development</h3>
                 <ul className="space-y-4">
                   <li>HTML & CSS</li>
@@ -209,7 +253,11 @@ export default function App() {
                   <li>MongoDB</li>
                 </ul>
               </div>
-              <div className="bg-gray-50 p-6 rounded-xl shadow-sm">
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-700 delay-200 ${
+                visibleSections.has('skills') 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-10'
+              }`}>
                 <h3 className="text-xl font-semibold mb-4">Mobile App Development</h3>
                 <ul className="space-y-4">
                   <li>Android Studio</li>
@@ -217,14 +265,22 @@ export default function App() {
                   <li>XML & Jetpack Compose</li>
                 </ul>
               </div>
-              <div className="bg-gray-50 p-6 rounded-xl shadow-sm">
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-700 delay-300 ${
+                visibleSections.has('skills') 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-10'
+              }`}>
                 <h3 className="text-xl font-semibold mb-4">3D Design & Animation</h3>
                 <ul className="space-y-4">
                   <li>Three.js</li>
                   <li>Blender (Basic)</li>
                 </ul>
               </div>
-              <div className="bg-gray-50 p-6 rounded-xl shadow-sm">
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-700 delay-400 ${
+                visibleSections.has('skills') 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-10'
+              }`}>
                 <h3 className="text-xl font-semibold mb-4">Programming Languages</h3>
                 <ul className="space-y-4">
                   <li>JavaScript</li>
@@ -233,7 +289,11 @@ export default function App() {
                   <li>C</li>
                 </ul>
               </div>
-              <div className="bg-gray-50 p-6 rounded-xl shadow-sm">
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-700 delay-500 ${
+                visibleSections.has('skills') 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-10'
+              }`}>
                 <h3 className="text-xl font-semibold mb-4">Database Management</h3>
                 <ul className="space-y-4">
                   <li>MySQL</li>
@@ -242,7 +302,11 @@ export default function App() {
                   <li>Supabase</li>
                 </ul>
               </div>
-              <div className="bg-gray-50 p-6 rounded-xl shadow-sm">
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-700 delay-600 ${
+                visibleSections.has('skills') 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-10'
+              }`}>
                 <h3 className="text-xl font-semibold mb-4">Tools & Platforms</h3>
                 <div className="space-y-5 mt-4">
                   <SkillBar skill="Git" percentage={80} />
@@ -252,7 +316,11 @@ export default function App() {
                   <SkillBar skill="REST APIs" percentage={85} />
                 </div>
               </div>
-              <div className="bg-gray-50 p-6 rounded-xl shadow-sm">
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-700 delay-700 ${
+                visibleSections.has('skills') 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-10'
+              }`}>
                 <h3 className="text-xl font-semibold mb-4">AI/ML Integration</h3>
                 <ul className="space-y-4">
                   <li>TensorFlow Lite (mobile)</li>
@@ -264,13 +332,25 @@ export default function App() {
         </section>
 
         {/* Projects Section */}
-        <section id="projects" className="py-20">
+        <section id="projects" ref={projectsRef} className="py-20">
           <div className="container mx-auto px-6">
-            <h2 className="text-3xl font-bold text-center mb-4">Projects</h2>
-            <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">Here are some of my featured projects showcasing my skills and experience.</p>
+            <h2 className={`text-3xl font-bold text-center mb-4 transition-all duration-1000 ${
+              visibleSections.has('projects') 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-10'
+            }`}>Projects</h2>
+            <p className={`text-center text-gray-600 mb-8 max-w-2xl mx-auto transition-all duration-1000 delay-200 ${
+              visibleSections.has('projects') 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-10'
+            }`}>Here are some of my featured projects showcasing my skills and experience.</p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className="bg-gray-50 p-6 rounded-xl shadow-sm">
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-700 delay-300 hover:scale-105 hover:shadow-lg ${
+                visibleSections.has('projects') 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-10'
+              }`}>
                 <div className="mb-4">
                   <img 
                     src="/portfolio-preview.png" 
@@ -288,7 +368,11 @@ export default function App() {
                 </ul>
               </div>
               
-              <div className="bg-gray-50 p-6 rounded-xl shadow-sm">
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-700 delay-500 hover:scale-105 hover:shadow-lg ${
+                visibleSections.has('projects') 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-10'
+              }`}>
                 <h3 className="text-xl font-semibold mb-2">MERN Stack E-commerce Platform</h3>
                 <p className="text-gray-600 mb-4">Full-stack e-commerce application with user authentication, product management, shopping cart, and payment integration.</p>
                 <ul className="list-disc list-inside text-gray-700">
@@ -299,7 +383,11 @@ export default function App() {
                 </ul>
               </div>
               
-              <div className="bg-gray-50 p-6 rounded-xl shadow-sm">
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-700 delay-700 hover:scale-105 hover:shadow-lg ${
+                visibleSections.has('projects') 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-10'
+              }`}>
                 <h3 className="text-xl font-semibold mb-2">AI-Powered Mobile App</h3>
                 <p className="text-gray-600 mb-4">Android application integrating machine learning for real-time object detection and classification using TensorFlow Lite.</p>
                 <ul className="list-disc list-inside text-gray-700">
@@ -314,11 +402,19 @@ export default function App() {
         </section>
         
         {/* Education Section */}
-        <section id="education" className="py-20 bg-white">
+        <section id="education" ref={educationRef} className="py-20 bg-white">
           <div className="container mx-auto px-6">
-            <h2 className="text-3xl font-bold text-center mb-12">Education</h2>
+            <h2 className={`text-3xl font-bold text-center mb-12 transition-all duration-1000 ${
+              visibleSections.has('education') 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-10'
+            }`}>Education</h2>
             <div className="max-w-2xl mx-auto">
-              <div className="bg-gray-50 p-6 rounded-xl shadow-sm mb-6">
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm mb-6 transition-all duration-700 delay-300 ${
+                visibleSections.has('education') 
+                  ? 'opacity-100 translate-x-0' 
+                  : 'opacity-0 -translate-x-10'
+              }`}>
                 <div className="flex justify-between items-start">
                   <div>
                     <h3 className="text-xl font-bold">Master Of Computer Application (MCA)</h3>
@@ -327,7 +423,11 @@ export default function App() {
                   <span className="bg-indigo-100 text-indigo-800 text-sm font-medium px-2.5 py-0.5 rounded-full">2024-2026</span>
                 </div>
               </div>
-              <div className="bg-gray-50 p-6 rounded-xl shadow-sm">
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-700 delay-500 ${
+                visibleSections.has('education') 
+                  ? 'opacity-100 translate-x-0' 
+                  : 'opacity-0 translate-x-10'
+              }`}>
                 <div className="flex justify-between items-start">
                   <div>
                     <h3 className="text-xl font-bold">B.S.C</h3>
@@ -341,12 +441,20 @@ export default function App() {
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="py-20">
+        <section id="contact" ref={contactRef} className="py-20">
           <div className="container mx-auto px-6">
-            <h2 className="text-3xl font-bold text-center mb-12">Contact Me</h2>
+            <h2 className={`text-3xl font-bold text-center mb-12 transition-all duration-1000 ${
+              visibleSections.has('contact') 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-10'
+            }`}>Contact Me</h2>
             <div className="max-w-4xl mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div className="text-center md:text-left">
+                <div className={`text-center md:text-left transition-all duration-700 delay-300 ${
+                  visibleSections.has('contact') 
+                    ? 'opacity-100 translate-x-0' 
+                    : 'opacity-0 -translate-x-10'
+                }`}>
                   <p className="text-lg text-gray-600 mb-8">Feel free to reach out for any opportunities or just to say hi!</p>
                   <div className="space-y-4">
                     <a href="mailto:patrisureshkumar67338@gmail.com" className="flex items-center justify-center md:justify-start gap-3 text-gray-700 hover:text-indigo-600 transition duration-300 text-lg">
@@ -364,7 +472,11 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="bg-white p-8 rounded-xl shadow-md">
+                <div className={`bg-white p-8 rounded-xl shadow-md transition-all duration-700 delay-500 ${
+                  visibleSections.has('contact') 
+                    ? 'opacity-100 translate-x-0' 
+                    : 'opacity-0 translate-x-10'
+                }`}>
                   <h3 className="text-xl font-bold mb-2 text-center">Get In Touch</h3>
                   <p className="text-gray-600 text-center mb-4">Send me a message and I'll get back to you soon!</p>
                   <form className="space-y-4">
