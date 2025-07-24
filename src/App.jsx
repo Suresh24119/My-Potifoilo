@@ -438,6 +438,13 @@ export default function App() {
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
               }`}>
+                <div className="mb-4">
+                  <img 
+                    src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                    alt="E-commerce Platform" 
+                    className="w-full h-48 object-cover rounded-lg"
+                  />
+                </div>
                 <h3 className="text-xl font-semibold mb-2 text-purple-700">MERN Stack E-commerce Platform</h3>
                 <p className="text-gray-600 mb-4">Full-stack e-commerce application with user authentication, product management, shopping cart, and payment integration.</p>
                 <ul className="list-disc list-inside text-gray-700 mb-4">
@@ -469,6 +476,13 @@ export default function App() {
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
               }`}>
+                <div className="mb-4">
+                  <img 
+                    src="https://images.unsplash.com/photo-1555421689-d68471e189f2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                    alt="AI Mobile App" 
+                    className="w-full h-48 object-cover rounded-lg"
+                  />
+                </div>
                 <h3 className="text-xl font-semibold mb-2 text-green-700">AI-Powered Mobile App</h3>
                 <p className="text-gray-600 mb-4">Android application integrating machine learning for real-time object detection and classification using TensorFlow Lite.</p>
                 <ul className="list-disc list-inside text-gray-700 mb-4">
