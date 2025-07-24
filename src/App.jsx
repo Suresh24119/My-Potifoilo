@@ -409,12 +409,28 @@ export default function App() {
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-indigo-700">Interactive Portfolio Website</h3>
                 <p className="text-gray-600 mb-4">A modern, responsive portfolio website built with React.js featuring 3D animations, interactive UI elements, and dynamic content.</p>
-                <ul className="list-disc list-inside text-gray-700">
+                <ul className="list-disc list-inside text-gray-700 mb-4">
                   <li>React.js</li>
                   <li>Three.js</li>
                   <li>Tailwind CSS</li>
                   <li>Responsive Design</li>
                 </ul>
+                <div className="flex gap-3 mt-4">
+                  <a 
+                    href="#" 
+                    className="flex-1 bg-indigo-600 text-white px-4 py-2 rounded-lg text-center hover:bg-indigo-700 transition duration-300 transform hover:scale-105"
+                  >
+                    <i className="fas fa-external-link-alt mr-2"></i>
+                    View Project
+                  </a>
+                  <a 
+                    href="#" 
+                    className="flex-1 bg-gray-800 text-white px-4 py-2 rounded-lg text-center hover:bg-gray-900 transition duration-300 transform hover:scale-105"
+                  >
+                    <i className="fab fa-github mr-2"></i>
+                    GitHub
+                  </a>
+                </div>
               </div>
               
               <div className={`bg-gray-50 p-6 rounded-xl shadow-sm color-shift-card border-glow project-card transition-all duration-700 delay-500 hover:scale-105 hover:shadow-lg ${
@@ -424,12 +440,28 @@ export default function App() {
               }`}>
                 <h3 className="text-xl font-semibold mb-2 text-purple-700">MERN Stack E-commerce Platform</h3>
                 <p className="text-gray-600 mb-4">Full-stack e-commerce application with user authentication, product management, shopping cart, and payment integration.</p>
-                <ul className="list-disc list-inside text-gray-700">
+                <ul className="list-disc list-inside text-gray-700 mb-4">
                   <li>MongoDB</li>
                   <li>Express.js</li>
                   <li>React.js</li>
                   <li>Node.js</li>
                 </ul>
+                <div className="flex gap-3 mt-4">
+                  <a 
+                    href="#" 
+                    className="flex-1 bg-purple-600 text-white px-4 py-2 rounded-lg text-center hover:bg-purple-700 transition duration-300 transform hover:scale-105"
+                  >
+                    <i className="fas fa-external-link-alt mr-2"></i>
+                    View Project
+                  </a>
+                  <a 
+                    href="#" 
+                    className="flex-1 bg-gray-800 text-white px-4 py-2 rounded-lg text-center hover:bg-gray-900 transition duration-300 transform hover:scale-105"
+                  >
+                    <i className="fab fa-github mr-2"></i>
+                    GitHub
+                  </a>
+                </div>
               </div>
               
               <div className={`bg-gray-50 p-6 rounded-xl shadow-sm pulse-glow-card float-card project-card transition-all duration-700 delay-700 hover:scale-105 hover:shadow-lg ${
@@ -439,12 +471,28 @@ export default function App() {
               }`}>
                 <h3 className="text-xl font-semibold mb-2 text-green-700">AI-Powered Mobile App</h3>
                 <p className="text-gray-600 mb-4">Android application integrating machine learning for real-time object detection and classification using TensorFlow Lite.</p>
-                <ul className="list-disc list-inside text-gray-700">
+                <ul className="list-disc list-inside text-gray-700 mb-4">
                   <li>Android Studio</li>
                   <li>Kotlin</li>
                   <li>TensorFlow Lite</li>
                   <li>Camera API</li>
                 </ul>
+                <div className="flex gap-3 mt-4">
+                  <a 
+                    href="#" 
+                    className="flex-1 bg-green-600 text-white px-4 py-2 rounded-lg text-center hover:bg-green-700 transition duration-300 transform hover:scale-105"
+                  >
+                    <i className="fas fa-external-link-alt mr-2"></i>
+                    View Project
+                  </a>
+                  <a 
+                    href="#" 
+                    className="flex-1 bg-gray-800 text-white px-4 py-2 rounded-lg text-center hover:bg-gray-900 transition duration-300 transform hover:scale-105"
+                  >
+                    <i className="fab fa-github mr-2"></i>
+                    GitHub
+                  </a>
+                </div>
               </div>
             </div>
           </div>
