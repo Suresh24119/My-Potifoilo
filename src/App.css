@@ -540,6 +540,136 @@ img {
   animation: borderPulse 2s ease-in-out infinite, navbarFloat 6s ease-in-out infinite;
 }
 
+/* 3D Logo Design */
+.logo-3d-container {
+  perspective: 1000px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-3d-design {
+  position: relative;
+  width: 192px;
+  height: 192px;
+  transform-style: preserve-3d;
+  animation: logoRotate 20s infinite linear;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    inset 0 10px 20px rgba(255, 255, 255, 0.2),
+    inset 0 -10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.logo-background-circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #4f46e5, #7c3aed);
+  transform: translateZ(-10px);
+  opacity: 0.8;
+}
+
+.logo-letter-s, .logo-letter-c {
+  position: absolute;
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 4rem;
+  color: white;
+  text-shadow: 
+    0 0 20px rgba(255, 255, 255, 0.8),
+    0 5px 10px rgba(0, 0, 0, 0.5),
+    2px 2px 4px rgba(0, 0, 0, 0.3);
+  transform-style: preserve-3d;
+  transition: all 0.5s ease;
+}
+
+.logo-letter-s {
+  top: 30%;
+  left: 25%;
+  transform: translateZ(20px) rotateY(-15deg);
+  background: linear-gradient(145deg, #ffffff, #e2e8f0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.logo-letter-c {
+  top: 30%;
+  right: 25%;
+  transform: translateZ(25px) rotateY(15deg);
+  background: linear-gradient(145deg, #fbbf24, #f59e0b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.logo-glow-effect {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: calc(100% + 20px);
+  height: calc(100% + 20px);
+  border-radius: 50%;
+  background: linear-gradient(45deg, #4f46e5, #7c3aed, #ec4899);
+  opacity: 0.3;
+  animation: logoGlow 3s ease-in-out infinite alternate;
+  filter: blur(8px);
+  transform: translateZ(-20px);
+}
+
+@keyframes logoRotate {
+  0% {
+    transform: rotateY(0deg) rotateX(0deg);
+  }
+  25% {
+    transform: rotateY(90deg) rotateX(10deg);
+  }
+  50% {
+    transform: rotateY(180deg) rotateX(0deg);
+  }
+  75% {
+    transform: rotateY(270deg) rotateX(-10deg);
+  }
+  100% {
+    transform: rotateY(360deg) rotateX(0deg);
+  }
+}
+
+@keyframes logoGlow {
+  0% {
+    opacity: 0.3;
+    transform: translateZ(-20px) scale(1);
+  }
+  100% {
+    opacity: 0.6;
+    transform: translateZ(-20px) scale(1.1);
+  }
+}
+
+.logo-3d-design:hover {
+  animation-play-state: paused;
+  transform: rotateY(25deg) rotateX(15deg) scale(1.1);
+}
+
+.logo-3d-design:hover .logo-letter-s {
+  transform: translateZ(30px) rotateY(-25deg) scale(1.2);
+  text-shadow: 
+    0 0 30px rgba(255, 255, 255, 1),
+    0 8px 15px rgba(0, 0, 0, 0.6);
+}
+
+.logo-3d-design:hover .logo-letter-c {
+  transform: translateZ(35px) rotateY(25deg) scale(1.2);
+  text-shadow: 
+    0 0 30px rgba(251, 191, 36, 0.8),
+    0 8px 15px rgba(0, 0, 0, 0.6);
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

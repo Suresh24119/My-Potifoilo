@@ -239,12 +239,13 @@ export default function App() {
         <section id="home" className="relative py-20 md:py-32 bg-gray-900 text-white overflow-hidden h-screen flex items-center justify-center">
           <canvas ref={heroCanvasRef} className="absolute top-0 left-0 w-full h-full z-1"></canvas>
           <div className="hero-content container mx-auto px-6 text-center relative z-10">
-            <div className="w-48 h-48 mx-auto mb-6">
-              <img 
-                src="https://placehold.co/192x192/E0E0E0/333333?text=SC" 
-                alt="Suresh Choudhary" 
-                className="rounded-full w-full h-full object-cover shadow-lg border-4 border-white"
-              />
+            <div className="w-48 h-48 mx-auto mb-6 logo-3d-container">
+              <div className="logo-3d-design">
+                <div className="logo-letter-s">S</div>
+                <div className="logo-letter-c">C</div>
+                <div className="logo-background-circle"></div>
+                <div className="logo-glow-effect"></div>
+              </div>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold">Suresh Choudhary</h1>
             <p className="mt-4 text-xl text-gray-300">MERN Stack Developer | Mobile App Developer | AI/ML Enthusiast</p>
