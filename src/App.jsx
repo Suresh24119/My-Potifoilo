@@ -27,6 +27,8 @@ export default function App() {
     script.onload = () => {
       if (window.THREE && heroCanvasRef.current) {
         initThreeJS()
+        initScrollAnimations()
+        addFloatingElements()
       }
     }
     document.head.appendChild(script)
@@ -37,36 +39,70 @@ export default function App() {
   }, [])
 
   const initThreeJS = () => {
-    const scene = new window.THREE.Scene()
-    const camera = new window.THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-    const renderer = new window.THREE.WebGLRenderer({
+    window.heroScene = new window.THREE.Scene()
+    window.heroCamera = new window.THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+    window.heroRenderer = new window.THREE.WebGLRenderer({
       canvas: heroCanvasRef.current,
       alpha: true
     })
-    renderer.setSize(window.innerWidth, window.innerHeight)
+    window.heroRenderer.setSize(window.innerWidth, window.innerHeight)
 
+    // Enhanced particle system
     const particleGroup = new window.THREE.Group()
-    scene.add(particleGroup)
+    window.heroScene.add(particleGroup)
+    window.particleGroup = particleGroup
 
-    const particleCount = 5000
+    const particleCount = 8000
     const particles = new window.THREE.BufferGeometry()
     const positions = new Float32Array(particleCount * 3)
+    const colors = new Float32Array(particleCount * 3)
 
-    for (let i = 0; i < particleCount * 3; i++) {
-      positions[i] = (Math.random() - 0.5) * 10
+    for (let i = 0; i < particleCount; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * 20
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 20
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 20
+
+      const color = new window.THREE.Color()
+      color.setHSL(Math.random() * 0.2 + 0.5, 0.7, 0.5)
+      colors[i * 3] = color.r
+      colors[i * 3 + 1] = color.g
+      colors[i * 3 + 2] = color.b
     }
 
     particles.setAttribute('position', new window.THREE.BufferAttribute(positions, 3))
+    particles.setAttribute('color', new window.THREE.BufferAttribute(colors, 3))
+    
     const particleMaterial = new window.THREE.PointsMaterial({
-      color: 0xffffff,
-      size: 0.015,
+      size: 0.02,
       transparent: true,
-      blending: window.THREE.AdditiveBlending
+      blending: window.THREE.AdditiveBlending,
+      vertexColors: true
     })
     const particleSystem = new window.THREE.Points(particles, particleMaterial)
     particleGroup.add(particleSystem)
+
+    // Add geometric shapes
+    const geometry = new window.THREE.TorusKnotGeometry(0.8, 0.3, 100, 16)
+    const material = new window.THREE.MeshPhongMaterial({
+      color: 0x4f46e5,
+      transparent: true,
+      opacity: 0.3,
+      wireframe: true
+    })
+    const torusKnot = new window.THREE.Mesh(geometry, material)
+    torusKnot.position.set(-3, 2, -2)
+    window.heroScene.add(torusKnot)
+    window.torusKnot = torusKnot
+
+    // Add lights
+    const ambientLight = new window.THREE.AmbientLight(0x404040, 0.6)
+    window.heroScene.add(ambientLight)
     
-    camera.position.z = 5
+    const directionalLight = new window.THREE.DirectionalLight(0xffffff, 1)
+    directionalLight.position.set(5, 5, 5)
+    window.heroScene.add(directionalLight)
+    
+    window.heroCamera.position.z = 5
 
     let mouseX = 0, mouseY = 0
     document.addEventListener('mousemove', (event) => {
@@ -76,21 +112,83 @@ export default function App() {
 
     const animate = function () {
       requestAnimationFrame(animate)
-      particleGroup.rotation.y += 0.0005
-      particleGroup.rotation.x += 0.0005
-      camera.position.x += (mouseX - camera.position.x) * 0.05
-      camera.position.y += (-mouseY - camera.position.y) * 0.05
-      camera.lookAt(scene.position)
-      renderer.render(scene, camera)
+      
+      // Scroll-based animation
+      const scrollPercent = window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight)
+      
+      particleGroup.rotation.y += 0.001 + scrollPercent * 0.01
+      particleGroup.rotation.x += 0.0005 + scrollPercent * 0.005
+      
+      if (window.torusKnot) {
+        window.torusKnot.rotation.x += 0.01
+        window.torusKnot.rotation.y += 0.02
+        window.torusKnot.position.y = 2 + Math.sin(Date.now() * 0.001) * 0.5
+      }
+      
+      window.heroCamera.position.x += (mouseX - window.heroCamera.position.x) * 0.05
+      window.heroCamera.position.y += (-mouseY - window.heroCamera.position.y) * 0.05
+      window.heroCamera.lookAt(window.heroScene.position)
+      
+      window.heroRenderer.render(window.heroScene, window.heroCamera)
     }
 
     window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight
-      camera.updateProjectionMatrix()
-      renderer.setSize(window.innerWidth, window.innerHeight)
+      window.heroCamera.aspect = window.innerWidth / window.innerHeight
+      window.heroCamera.updateProjectionMatrix()
+      window.heroRenderer.setSize(window.innerWidth, window.innerHeight)
     })
 
     animate()
+  }
+
+  const initScrollAnimations = () => {
+    // Create floating 3D elements that appear on scroll
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.pageYOffset
+      const scrollPercent = scrollTop / (document.documentElement.scrollHeight - window.innerHeight)
+      
+      // Animate particles based on scroll
+      if (window.particleGroup) {
+        window.particleGroup.rotation.z = scrollPercent * Math.PI * 2
+        window.particleGroup.scale.setScalar(1 + scrollPercent * 0.5)
+      }
+      
+      // Update floating elements
+      document.querySelectorAll('.floating-3d').forEach((element, index) => {
+        const elementTop = element.offsetTop
+        const elementVisible = (scrollTop + window.innerHeight) > elementTop
+        
+        if (elementVisible) {
+          const progress = Math.min((scrollTop + window.innerHeight - elementTop) / window.innerHeight, 1)
+          element.style.transform = `translateY(${-progress * 20}px) rotateY(${progress * 360}deg) scale(${0.8 + progress * 0.2})`
+          element.style.opacity = progress
+        }
+      })
+    })
+  }
+
+  const addFloatingElements = () => {
+    // Add floating 3D CSS elements
+    const sections = document.querySelectorAll('section')
+    sections.forEach((section, index) => {
+      if (index > 0) { // Skip hero section
+        const floatingElement = document.createElement('div')
+        floatingElement.className = 'floating-3d fixed pointer-events-none z-10'
+        floatingElement.style.cssText = `
+          width: 100px;
+          height: 100px;
+          background: linear-gradient(45deg, rgba(79, 70, 229, 0.1), rgba(147, 51, 234, 0.1));
+          border-radius: 20px;
+          right: ${Math.random() * 200 + 50}px;
+          top: ${section.offsetTop + Math.random() * 200}px;
+          opacity: 0;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        `
+        document.body.appendChild(floatingElement)
+      }
+    })
   }
 
   // Skills animation observer
@@ -284,7 +382,7 @@ export default function App() {
                 : 'opacity-0 translate-y-10'
             }`}>My Skills</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm glow-card shimmer-card transition-all duration-700 delay-100 ${
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm glow-card shimmer-card skill-card-3d transition-all duration-700 delay-100 ${
                 visibleSections.has('skills') 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
@@ -297,7 +395,7 @@ export default function App() {
                   <li>MongoDB</li>
                 </ul>
               </div>
-              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm color-shift-card border-glow transition-all duration-700 delay-200 ${
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm color-shift-card border-glow skill-card-3d transition-all duration-700 delay-200 ${
                 visibleSections.has('skills') 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
@@ -309,7 +407,7 @@ export default function App() {
                   <li>XML & Jetpack Compose</li>
                 </ul>
               </div>
-              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm pulse-glow-card shimmer-card transition-all duration-700 delay-300 ${
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm pulse-glow-card shimmer-card skill-card-3d transition-all duration-700 delay-300 ${
                 visibleSections.has('skills') 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
@@ -320,7 +418,7 @@ export default function App() {
                   <li>Blender (Basic)</li>
                 </ul>
               </div>
-              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm float-card glow-card transition-all duration-700 delay-400 ${
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm float-card glow-card skill-card-3d transition-all duration-700 delay-400 ${
                 visibleSections.has('skills') 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
@@ -333,7 +431,7 @@ export default function App() {
                   <li>C</li>
                 </ul>
               </div>
-              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm color-shift-card pulse-glow-card transition-all duration-700 delay-500 ${
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm color-shift-card pulse-glow-card skill-card-3d transition-all duration-700 delay-500 ${
                 visibleSections.has('skills') 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
@@ -346,7 +444,7 @@ export default function App() {
                   <li>Supabase</li>
                 </ul>
               </div>
-              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm shimmer-card border-glow transition-all duration-700 delay-600 ${
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm shimmer-card border-glow skill-card-3d transition-all duration-700 delay-600 ${
                 visibleSections.has('skills') 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
@@ -360,7 +458,7 @@ export default function App() {
                   <SkillBar skill="REST APIs" percentage={85} />
                 </div>
               </div>
-              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm float-card pulse-glow-card transition-all duration-700 delay-700 ${
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm float-card pulse-glow-card skill-card-3d transition-all duration-700 delay-700 ${
                 visibleSections.has('skills') 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
@@ -390,7 +488,7 @@ export default function App() {
             }`}>Here are some of my featured projects showcasing my skills and experience.</p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm glow-card shimmer-card project-card transition-all duration-700 delay-300 hover:scale-105 hover:shadow-lg ${
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm glow-card shimmer-card project-card project-card-3d transition-all duration-700 delay-300 ${
                 visibleSections.has('projects') 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
@@ -412,7 +510,7 @@ export default function App() {
                 </ul>
               </div>
               
-              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm color-shift-card border-glow project-card transition-all duration-700 delay-500 hover:scale-105 hover:shadow-lg ${
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm color-shift-card border-glow project-card project-card-3d transition-all duration-700 delay-500 ${
                 visibleSections.has('projects') 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
@@ -427,7 +525,7 @@ export default function App() {
                 </ul>
               </div>
               
-              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm pulse-glow-card float-card project-card transition-all duration-700 delay-700 hover:scale-105 hover:shadow-lg ${
+              <div className={`bg-gray-50 p-6 rounded-xl shadow-sm pulse-glow-card float-card project-card project-card-3d transition-all duration-700 delay-700 ${
                 visibleSections.has('projects') 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'

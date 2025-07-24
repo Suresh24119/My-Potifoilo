@@ -318,6 +318,114 @@ img {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+/* 3D Scroll Animations */
+@keyframes float3D {
+  0%, 100% {
+    transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+  }
+  33% {
+    transform: translateY(-20px) rotateX(15deg) rotateY(120deg);
+  }
+  66% {
+    transform: translateY(-10px) rotateX(-10deg) rotateY(240deg);
+  }
+}
+
+@keyframes morphShape {
+  0% {
+    border-radius: 20px;
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    border-radius: 50%;
+    transform: scale(1.1) rotate(180deg);
+  }
+  100% {
+    border-radius: 20px;
+    transform: scale(1) rotate(360deg);
+  }
+}
+
+@keyframes scrollGlow {
+  0% {
+    box-shadow: 0 0 20px rgba(79, 70, 229, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(147, 51, 234, 0.6), 0 0 60px rgba(99, 102, 241, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(79, 70, 229, 0.3);
+  }
+}
+
+.floating-3d {
+  animation: float3D 6s ease-in-out infinite, morphShape 8s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+
+.floating-3d:hover {
+  animation: float3D 2s ease-in-out infinite, scrollGlow 2s infinite;
+}
+
+/* Scroll-triggered 3D transforms */
+.scroll-3d-element {
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-style: preserve-3d;
+}
+
+.scroll-3d-rotate {
+  transform: perspective(1000px) rotateY(-15deg) rotateX(5deg);
+}
+
+.scroll-3d-rotate.visible {
+  transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+}
+
+/* Enhanced skill cards with 3D effects */
+.skill-card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.4s ease;
+  perspective: 1000px;
+}
+
+.skill-card-3d:hover {
+  transform: translateZ(30px) rotateY(10deg) rotateX(-5deg);
+}
+
+.skill-card-3d::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(147, 51, 234, 0.1));
+  border-radius: inherit;
+  transform: translateZ(-10px);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.skill-card-3d:hover::before {
+  opacity: 1;
+}
+
+/* Project cards with 3D depth */
+.project-card-3d {
+  transform-style: preserve-3d;
+  transition: all 0.5s ease;
+}
+
+.project-card-3d:hover {
+  transform: translateY(-10px) rotateX(5deg) rotateY(-5deg) translateZ(20px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+/* Parallax scroll sections */
+.parallax-section {
+  transform-style: preserve-3d;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -328,10 +436,10 @@ img {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: linear-gradient(45deg, #4f46e5, #7c3aed);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: linear-gradient(45deg, #3730a3, #5b21b6);
 }
